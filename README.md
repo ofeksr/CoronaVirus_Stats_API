@@ -1,13 +1,34 @@
 # CoronaVirus_Stats_API
-Flask RESTful API for CoronaVirus Stats.
+Flask RESTful API for CoronaVirus Stats, for receiving history stats by country and or by date.
 
-For recevieng history stats by country, by date or by date range.
+```
+{
+    "Hello": "Welcome to CoronaVirus Stats RESTful API",
+    "Latest Update Date": "13.03.2020",
+    "Total Cases": {....}
+    "Credits": "Ofek Saar, ofekip@gmail.com",
+    "Powered By": "Flask and pandas"
+}
+```
 
-### Depencies:
+### Dependencies:
 1. pandas
 2. Flask
+3. Scrapping data from https://www.worldometers.info/coronavirus/
 
-#### Web scrapping data from https://www.worldometers.info/coronavirus/
+#### Available queries:
+    GET
+    
+    http://localhost:5000/
+    http://localhost:5000/all_records/
+    http://localhost:5000/records_by_country/<country>
+    http://localhost:5000/records_by_date_country/<date>/<country>
+     
+
+### First time usage:
+1. Run `web_scarp_data/web_scrap_legacy_stats.py` for setting up history stats database with help of https://archive.org/web/
+2. Run `web_scarp_stats.py` DAILY for keeping an updated database.
+
 
 ## Example of query:
 ```
