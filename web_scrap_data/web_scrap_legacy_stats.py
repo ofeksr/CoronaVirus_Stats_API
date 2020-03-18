@@ -4,7 +4,7 @@ from time import sleep
 import pandas as pd
 
 import configs
-from web_scrap_stats import get_coronavirus_cases_table, save_df_to_json_file
+from web_scrap_data.web_scrap_stats import get_coronavirus_cases_table, save_df_to_json_file
 
 
 def build_timestamps_dataframe_from_web_archive():

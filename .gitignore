@@ -2,6 +2,4 @@
 /venv/
 /.idea
 /__pycache__
-/web_scrap_data/web_scrap_stats_schedule.bat
-web_scrap_stats_schedule.bat
 /stats records/

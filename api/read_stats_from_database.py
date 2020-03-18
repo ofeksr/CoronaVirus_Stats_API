@@ -56,34 +56,57 @@ def read_json_file_to_dataframe(path):
 def get_current_total_cases():
     path = get_latest_json_file_path()
     df = read_json_file_to_dataframe(path)
-    total_cases_df = df[df['Country,Other'] == 'Total:']
+    countries_column_name = get_countries_dataframe_column_name(df)
+    total_cases_df = df[df[countries_column_name] == 'Total:']
     return total_cases_df.to_dict()
 
 
+def get_countries_dataframe_column_name(df):
+    r = re.compile('C|countr.*')
+    countries_column_name = list(filter(r.match, list(df.columns)))[0]
+    return countries_column_name
+
+
+def get_correct_country_name_from_dataframe(df, country):
+    r = re.compile(f'.*{country.lower()}.*')
+    countries_names = get_only_countries_from_dataframe(df)
+    countries_names_only = list(list(countries_names.values())[0].values())
+    countries_names_only_lower_case = [c.lower() for c in countries_names_only]
+    correct_country_name = list(filter(r.match, countries_names_only_lower_case))[0]
+    return countries_names_only[countries_names_only_lower_case.index(correct_country_name)]
+
+
 def get_records_by_country_from_dataframe(df, country):
-    camel_case_country_name = country.title()
-    try:
-        df = df[df['Country,Other'] == camel_case_country_name]
-    except:
-        df = df[df['Country'] == camel_case_country_name]
+    countries_column_name = get_countries_dataframe_column_name(df)
+    correct_country_name = get_correct_country_name_from_dataframe(df, country)
+    df = df[df[countries_column_name] == correct_country_name]
+    print(df)
     return df
 
 
 def get_only_countries_from_dataframe(df):
-    try:
-        only_countries_df = df[['Country,Other']][:-1]
-    except:
-        only_countries_df = df[['Country']][:-1]
+    countries_column_name = get_countries_dataframe_column_name(df)
+    only_countries_df = df[[countries_column_name]][:-1]
     return only_countries_df.to_dict()
+
+
+def get_available_date_range():
+    available_date_range = {'Error': 'selected date is not exists, see available min and max dates'}
+    available_date_range.update(get_min_max_date_of_json_paths())
+    return available_date_range
+
+
+def get_available_countries(all_countries_df):
+    available_countries = {'Error': 'selected country not exists, see available countries'}
+    available_countries.update(get_only_countries_from_dataframe(all_countries_df))
+    return available_countries
 
 
 def get_records_from_database(specific_date=None, country=None):
     if specific_date:
         json_file_path = get_json_path_by_date(specific_date)
         if not json_file_path:
-            available_date_range = {'Error': 'selected date is not exists, see available min and max dates'}
-            available_date_range.update(get_min_max_date_of_json_paths())
-            return available_date_range
+            return get_available_date_range()
     else:
         json_file_path = get_latest_json_file_path()
 
@@ -91,9 +114,7 @@ def get_records_from_database(specific_date=None, country=None):
         all_countries_df = read_json_file_to_dataframe(json_file_path)
         df = get_records_by_country_from_dataframe(all_countries_df, country)
         if len(df) == 0:
-            available_countries = {'Error': 'selected country not exists, see available countries'}
-            available_countries.update(get_only_countries_from_dataframe(all_countries_df))
-            return available_countries
+            return get_available_countries(all_countries_df=df)
     else:
         df = read_json_file_to_dataframe(json_file_path)
 
