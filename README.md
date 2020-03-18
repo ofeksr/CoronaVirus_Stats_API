@@ -1,5 +1,6 @@
 # CoronaVirus_Stats_API
-Flask RESTful API for CoronaVirus Stats, for receiving history stats by country and or by date.
+Flask RESTful API for CoronaVirus Stats, for receiving history stats by country and or by date. <br>
+<b>It's recommended to let pandas.DataFrame(dict) to handle the returned dict from query.</b>
 
 ```
 {
@@ -16,9 +17,7 @@ Flask RESTful API for CoronaVirus Stats, for receiving history stats by country 
 2. Flask
 3. Scrapping data from https://www.worldometers.info/coronavirus/
 
-#### Available queries:
-    GET
-    
+#### Available GET queries:
     http://localhost:5000/
     http://localhost:5000/all_records/
     http://localhost:5000/records_by_country/<country>
