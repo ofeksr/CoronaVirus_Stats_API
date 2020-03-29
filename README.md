@@ -7,7 +7,7 @@ Flask RESTful API for CoronaVirus Stats, for receiving history stats by country 
     "Hello": "Welcome to CoronaVirus Stats RESTful API",
     "Latest Update Date": "13.03.2020",
     "Total Cases": {....}
-    "Credits": "Ofek Saar, ofekip@gmail.com",
+    "Credits": "Ofek Saar",
     "Powered By": "Flask and pandas"
 }
 ```

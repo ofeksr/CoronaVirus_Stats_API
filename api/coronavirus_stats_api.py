@@ -14,7 +14,7 @@ class Welcome(Resource):
             'Hello': 'Welcome to CoronaVirus Stats RESTful API',
             'Latest Update Date': get_latest_json_file_path(only_file_date=True),
             'Total Cases': get_current_total_cases(),
-            'Credits': 'Ofek Saar, ofekip@gmail.com',
+            'Credits': 'Ofek Saar',
             'Powered By': 'Flask and pandas',
         }
 
